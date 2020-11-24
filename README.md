@@ -69,6 +69,7 @@ $ npm start
 
 
 ### Keep in Touch
+---
 
 - [Github](https://github.com/AndreLuizPedroBotelho)
 - [Linkedin](https://www.linkedin.com/in/andr%C3%A9-luiz-pedro-botelho/)
