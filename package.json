@@ -1,0 +1,17 @@
+{
+  "name": "pm2-monit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "start": "lerna run start --parallel",
+    "postinstall": "lerna bootstrap"
+  },
+  "homepage": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
