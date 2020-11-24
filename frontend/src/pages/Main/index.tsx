@@ -27,11 +27,13 @@ interface MethodInterface {
 interface LogInterface {
   titleOut: {
     text: string;
+    amountText: string;
     title: string;
   };
 
   titleError: {
     text: string;
+    amountText: string;
     title: string;
   };
 }
@@ -207,7 +209,11 @@ const Main: React.FC = () => {
           try {
             setOpenLoading(true);
 
-            const { data } = await api.get(`/log/${id}`, {});
+            const { data } = await api.get(`/log/${id}`, {
+              params: {
+                amount: 50,
+              },
+            });
 
             setLog(data.log);
 
@@ -339,9 +345,17 @@ const Main: React.FC = () => {
           >
             {Object.keys(log).length !== 0 && log.constructor === Object && (
               <pre style={{ maxHeight: '80vh', margin: '20px' }}>
-                <h3>{log?.titleOut?.title}</h3>
+                <h3>
+                  {log?.titleOut?.title}&nbsp;
+                  {log?.titleOut?.amountText}:
+                </h3>
+
                 <pre>{log?.titleOut?.text}</pre>
-                <h3 style={{ color: 'red' }}>{log?.titleError?.title}</h3>
+
+                <h3 style={{ color: 'red' }}>
+                  {log?.titleError?.title}&nbsp; {log?.titleError?.amountText}:
+                </h3>
+
                 <pre style={{ color: 'red' }}>{log?.titleError?.text}</pre>
               </pre>
             )}
