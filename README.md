@@ -1,8 +1,7 @@
-<h1 align="center">
+<div align="center">
   <img alt="Logo" title="#Logo" width="350" src="./logo.png" />
   <h1 align="center">Pm2-monit</h1> 
-
-</h1>
+</div>
 
 
 ## Project developed to control pm2 process, it was development in node (backend) and react (frontend)
@@ -52,6 +51,7 @@ $ npm start
 ```
 
 ### Tech Stack
+---
 
 - react 
 - node
