@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import { IconButton, TextField } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import ContainerMaterial from '@material-ui/core/Container';
 import SettingsPowerIcon from '@material-ui/icons/SettingsPower';
 import CloseIcon from '@material-ui/icons/Close';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Loading from '../../components/Loading';
 import { Container, Content, Logo, SearchBody, DivHeader } from './styles';
 import imgLogo from '../../assets/pm2logo.png';
@@ -114,17 +115,43 @@ const Main: React.FC = () => {
         const result = await api.get('/list');
 
         const process = result.data.list.map(
-          ({ id, name, status, watch, pid }: any) => {
+          ({ id, name, status, watch, pid, port }: any) => {
+            let statusIcon = <ClearIcon color="error" />;
+
+            switch (status) {
+              case 'online':
+                statusIcon = (
+                  <RadioButtonCheckedIcon
+                    titleAccess="Online"
+                    htmlColor="green"
+                  />
+                );
+                break;
+
+              case 'stopped':
+                statusIcon = (
+                  <HighlightOffIcon titleAccess="Parado" htmlColor="red" />
+                );
+                break;
+
+              default:
+                statusIcon = (
+                  <ClearIcon
+                    titleAccess="Erro encontrado"
+                    fontSize="large"
+                    htmlColor="red"
+                  />
+                );
+
+                break;
+            }
+
             return {
               id,
               pid,
               name,
-              status:
-                status === 'online' ? (
-                  <CheckIcon color="primary" />
-                ) : (
-                  <ClearIcon color="error" />
-                ),
+              port,
+              status: statusIcon,
               watchStatus: watch === 'enabled',
               statusProcess: status === 'online',
               watch: (
@@ -308,8 +335,8 @@ const Main: React.FC = () => {
           />
         </SearchBody>
         <Table
-          headsText={['Código', 'Pid', 'Nome', 'Status', 'Watch']}
-          heads={['id', 'pid', 'name', 'status', 'watch']}
+          headsText={['Código', 'Nome', 'Pid', 'Port', 'Status', 'Watch']}
+          heads={['id', 'name', 'pid', 'port', 'status', 'watch']}
           rows={listProcess}
           methods={methods}
         />

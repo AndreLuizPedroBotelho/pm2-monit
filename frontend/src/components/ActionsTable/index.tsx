@@ -35,7 +35,7 @@ const ActionsTable: React.FC<ActionsTableProps> = ({
         color="primary"
         onClick={() => methods.logFunction(id)}
       >
-        <DescriptionIcon />
+        <DescriptionIcon titleAccess="Log" />
       </IconButton>
 
       {statusProcess ? (
@@ -44,7 +44,7 @@ const ActionsTable: React.FC<ActionsTableProps> = ({
           color="primary"
           onClick={() => methods.stopFunction(id)}
         >
-          <StopIcon />
+          <StopIcon titleAccess="Parar" />
         </IconButton>
       ) : (
         <IconButton
@@ -52,7 +52,7 @@ const ActionsTable: React.FC<ActionsTableProps> = ({
           color="primary"
           onClick={() => methods.startFunction(id, watchStatus)}
         >
-          <PlayArrowIcon />
+          <PlayArrowIcon titleAccess="Iniciar" />
         </IconButton>
       )}
 
@@ -61,7 +61,7 @@ const ActionsTable: React.FC<ActionsTableProps> = ({
         color="primary"
         onClick={() => methods.reloadFunction(id, watchStatus)}
       >
-        <ReplayIcon />
+        <ReplayIcon titleAccess="Reiniciar" />
       </IconButton>
 
       <IconButton
@@ -69,7 +69,7 @@ const ActionsTable: React.FC<ActionsTableProps> = ({
         color="primary"
         onClick={() => methods.deleteFunction(id)}
       >
-        <DeleteIcon />
+        <DeleteIcon titleAccess="Deletar" />
       </IconButton>
     </>
   );
