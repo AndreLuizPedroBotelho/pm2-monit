@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { useAuth } from '../hooks/auth';
 
 const api = axios.create({
-  baseURL: `http://localhost:3333`,
+  baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
 api.interceptors.request.use(async (config) => {

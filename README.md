@@ -38,7 +38,7 @@ $ npm install
 
 ---
 
-Configure env file in backend folder using env.example as a base
+Configure env file in backend and frontend folders using env.example as a base
 
 ### Usage
 
