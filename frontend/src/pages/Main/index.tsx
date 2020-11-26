@@ -114,9 +114,10 @@ const Main: React.FC = () => {
         const result = await api.get('/list');
 
         const process = result.data.list.map(
-          ({ id, name, status, watch }: any) => {
+          ({ id, name, status, watch, pid }: any) => {
             return {
               id,
+              pid,
               name,
               status:
                 status === 'online' ? (
@@ -307,8 +308,8 @@ const Main: React.FC = () => {
           />
         </SearchBody>
         <Table
-          headsText={['Código', 'Nome', 'Status', 'Watch']}
-          heads={['id', 'name', 'status', 'watch']}
+          headsText={['Código', 'Pid', 'Nome', 'Status', 'Watch']}
+          heads={['id', 'pid', 'name', 'status', 'watch']}
           rows={listProcess}
           methods={methods}
         />

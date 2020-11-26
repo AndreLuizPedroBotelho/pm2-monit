@@ -10,6 +10,7 @@ const listProcess  = async () =>{
    return {
      status: pm2.pm2_env.status,
      name:pm2.name,
+     pid: pm2.pid,
      id:pm2.pm2_env.NODE_APP_INSTANCE,
      watch : pm2.pm2_env.watch ? 'enabled':'disabled'
    }
