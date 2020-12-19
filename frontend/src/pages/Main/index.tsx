@@ -9,6 +9,9 @@ import SettingsPowerIcon from '@material-ui/icons/SettingsPower';
 import CloseIcon from '@material-ui/icons/Close';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Ws from '@adonisjs/websocket-client';
 import Loading from '../../components/Loading';
 import { Container, Content, Logo, SearchBody, DivHeader } from './styles';
 import imgLogo from '../../assets/pm2logo.png';
@@ -37,6 +40,8 @@ interface LogInterface {
     amountText: string;
     title: string;
   };
+  id: string;
+  idProcess: any;
 }
 
 const Main: React.FC = () => {
@@ -50,11 +55,38 @@ const Main: React.FC = () => {
   const [openLoading, setOpenLoading] = useState(false);
 
   const [log, setLog] = useState<LogInterface>({} as LogInterface);
+  const [amount, setAmount] = useState(50);
+
+  const [executeLog, setExecuteLog] = useState(false);
+
+  const [ws, setWs] = useState(Ws('ws://localhost:3333'));
 
   const handleClose = useCallback(() => {
     setOpen(false);
+    setExecuteLog(false);
     setLog({} as LogInterface);
+
+    setLoadProcess(true);
+
+    ws.close();
   }, []);
+
+  useEffect(() => {
+    if (executeLog === true) {
+      ws.connect();
+      const logwatch = ws.subscribe('logwatch');
+
+      logwatch.emit('message', {
+        id: log.id,
+        idProcess: log.idProcess,
+        amount,
+      });
+
+      logwatch.on(log.id, (response: any) => {
+        setLog(response.log);
+      });
+    }
+  }, [executeLog]);
 
   const [loadProcess, setLoadProcess] = useState(true);
 
@@ -239,14 +271,14 @@ const Main: React.FC = () => {
 
             const { data } = await api.get(`/log/${id}`, {
               params: {
-                amount: 50,
+                amount,
               },
             });
 
             setLog(data.log);
 
             setOpen(true);
-
+            setExecuteLog(true);
             setLoadProcess(true);
           } catch (err) {
             setOpenLoading(false);

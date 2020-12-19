@@ -11,6 +11,7 @@
 |
 */
 const providers = [
+  '@adonisjs/websocket/providers/WsProvider',
   '@adonisjs/framework/providers/AppProvider',
   '@adonisjs/auth/providers/AuthProvider',
   '@adonisjs/bodyparser/providers/BodyParserProvider',
