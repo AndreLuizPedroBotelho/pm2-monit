@@ -65,14 +65,15 @@ const Main: React.FC = () => {
     setOpen(false);
     setExecuteLog(false);
     setLog({} as LogInterface);
+    ws.close();
 
     setLoadProcess(true);
-    ws.close({ id: 'sa' });
   }, []);
 
   useEffect(() => {
     if (executeLog === true) {
       ws.connect();
+
       const logwatch = ws.subscribe('logwatch');
 
       logwatch.emit('message', {
@@ -278,7 +279,6 @@ const Main: React.FC = () => {
 
             setOpen(true);
             setExecuteLog(true);
-            setLoadProcess(true);
           } catch (err) {
             setOpenLoading(false);
 
@@ -302,6 +302,7 @@ const Main: React.FC = () => {
               title: 'Processo reiniciado com sucesso!',
               description: '',
             });
+            setOpenLoading(false);
 
             setLoadProcess(true);
           } catch (err) {
@@ -342,8 +343,10 @@ const Main: React.FC = () => {
       setMethods(methodsFunction);
     }
 
-    loadListProcess();
-    loadMethods();
+    if (loadProcess) {
+      loadListProcess();
+      loadMethods();
+    }
   }, [loadProcess]);
 
   return (
