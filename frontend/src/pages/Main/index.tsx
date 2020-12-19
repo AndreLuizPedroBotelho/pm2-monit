@@ -59,7 +59,7 @@ const Main: React.FC = () => {
 
   const [executeLog, setExecuteLog] = useState(false);
 
-  const [ws, setWs] = useState(Ws('ws://localhost:3333'));
+  const [ws, setWs] = useState(Ws(`ws://${process.env.REACT_APP_BACKEND_URL}`));
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -67,7 +67,6 @@ const Main: React.FC = () => {
     setLog({} as LogInterface);
 
     setLoadProcess(true);
-    console.log('as');
     ws.close({ id: 'sa' });
   }, []);
 

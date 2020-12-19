@@ -19,8 +19,7 @@ const Route: React.FC<RouteProps> = ({
 }) => {
   const { token } = useAuth();
   const isSigned = !!token;
-  console.log(token);
-  console.log(isSigned);
+
   return (
     <ReactDomRoute
       {...rest}
