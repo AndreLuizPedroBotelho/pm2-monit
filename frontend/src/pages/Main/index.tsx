@@ -67,8 +67,8 @@ const Main: React.FC = () => {
     setLog({} as LogInterface);
 
     setLoadProcess(true);
-
-    ws.close();
+    console.log('as');
+    ws.close({ id: 'sa' });
   }, []);
 
   useEffect(() => {

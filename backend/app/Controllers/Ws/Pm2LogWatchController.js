@@ -2,6 +2,7 @@
 const fs = require('fs');
 const { listProcess, getLog } = use('App/Helpers/Pm2')
 const os = require('os');
+const Ws = use('Ws')
 
 class Pm2LogWatchController {
   constructor({ socket, request }) {
@@ -13,25 +14,32 @@ class Pm2LogWatchController {
     const process = (await listProcess()).find(e => e.id === parseInt(message.idProcess))
 
     fs.watchFile(`${os.homedir()}/.pm2/logs/${process.name}-out.log`, async (curr, prev) => {
-      const logReturn = await getLog(message.idProcess, message.amount);
+      const topic = Ws.getChannel('logwatch').topic('logwatch')
 
-      this.socket.emit(message.id, { log: logReturn })
+      if (topic) {
+        const logReturn = await getLog(message.idProcess, message.amount);
+
+        this.socket.emit(message.id, { log: logReturn })
+      } else {
+        fs.unwatchFile(`${os.homedir()}/.pm2/logs/${process.name}-out.log`);
+      }
+
     });
 
     fs.watchFile(`${os.homedir()}/.pm2/logs/${process.name}-error.log`, async (curr, prev) => {
-      const logReturn = await getLog(message.idProcess, message.amount);
+      const topic = Ws.getChannel('logwatch').topic('logwatch')
 
-      this.socket.emit(message.id, { log: logReturn })
+      if (topic) {
+        const logReturn = await getLog(message.idProcess, message.amount);
+
+        this.socket.emit(message.id, { log: logReturn })
+      } else {
+        fs.unwatchFile(`${os.homedir()}/.pm2/logs/${process.name}-error.log`);
+      }
     });
 
   }
 
-  onClose() {
-    /*const process = (await listProcess()).find(e => e.id === parseInt(message.idProcess))
-    fs.unwatchFile(`${os.homedir()}/.pm2/logs/${process.name}-out.log`);
-
-    fs.unwatchFile(`${os.homedir()}/.pm2/logs/${process.name}-error.log`);*/
-  }
 }
 
 module.exports = Pm2LogWatchController
