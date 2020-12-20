@@ -2,16 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import { IconButton, TextField } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import ContainerMaterial from '@material-ui/core/Container';
 import SettingsPowerIcon from '@material-ui/icons/SettingsPower';
-import CloseIcon from '@material-ui/icons/Close';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Ws from '@adonisjs/websocket-client';
+import Swal from 'sweetalert2';
+import Modal from './Modal';
 import Loading from '../../components/Loading';
 import { Container, Content, Logo, SearchBody, DivHeader } from './styles';
 import imgLogo from '../../assets/pm2logo.png';
@@ -316,27 +314,40 @@ const Main: React.FC = () => {
           }
         },
         deleteFunction: async (id: number) => {
-          try {
-            setOpenLoading(true);
+          Swal.fire({
+            title: 'Você deseja deletar esse processo?',
+            text: 'Esse processo não poderá ser revertido!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              try {
+                setOpenLoading(true);
 
-            await api.delete(`/delete/${id}`);
+                await api.delete(`/delete/${id}`);
 
-            addToast({
-              type: 'success',
-              title: 'Processo deletado com sucesso!',
-              description: '',
-            });
+                addToast({
+                  type: 'success',
+                  title: 'Processo deletado com sucesso!',
+                  description: '',
+                });
 
-            setLoadProcess(true);
-          } catch (err) {
-            setOpenLoading(false);
+                setLoadProcess(true);
+              } catch (err) {
+                setOpenLoading(false);
 
-            addToast({
-              type: 'error',
-              title: 'Erro ao deletar!',
-              description: '',
-            });
-          }
+                addToast({
+                  type: 'error',
+                  title: 'Erro ao deletar!',
+                  description: '',
+                });
+              }
+            }
+          });
         },
       };
 
@@ -375,55 +386,8 @@ const Main: React.FC = () => {
           methods={methods}
         />
       </Content>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <ContainerMaterial maxWidth="lg">
-          <IconButton
-            aria-label="log"
-            color="primary"
-            onClick={handleClose}
-            style={{
-              color: 'white',
-              position: 'fixed',
-              right: 0,
-              marginRight: '8%',
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
 
-          <Typography
-            component="div"
-            style={{
-              backgroundColor: 'black',
-              color: 'green',
-              height: '100vh',
-              overflowX: 'auto',
-            }}
-          >
-            {Object.keys(log).length !== 0 && log.constructor === Object && (
-              <pre style={{ maxHeight: '80vh', margin: '20px' }}>
-                <h3>
-                  {log?.titleOut?.title}&nbsp;
-                  {log?.titleOut?.amountText}:
-                </h3>
-
-                <pre>{log?.titleOut?.text}</pre>
-
-                <h3 style={{ color: 'red' }}>
-                  {log?.titleError?.title}&nbsp; {log?.titleError?.amountText}:
-                </h3>
-
-                <pre style={{ color: 'red' }}>{log?.titleError?.text}</pre>
-              </pre>
-            )}
-          </Typography>
-        </ContainerMaterial>
-      </Modal>
+      <Modal open={open} handleClose={handleClose} log={log} />
     </Container>
   );
 };
