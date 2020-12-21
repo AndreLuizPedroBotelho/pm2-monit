@@ -4,7 +4,7 @@
 </div>
 
 
-## Project developed to control pm2 process, it was development in node (backend) and react (frontend)
+## Project developed to control pm2 process, it was developed in node (backend) and react (frontend)
 
 
 ### Preview
