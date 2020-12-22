@@ -44,7 +44,7 @@ Configure env file in backend and frontend folders using env.example as a base
 
 ---
 
-Start projects
+Starting projects
 
 ```sh
 $ npm start
