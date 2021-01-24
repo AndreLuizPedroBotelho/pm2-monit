@@ -64,9 +64,9 @@ $ npm start
 
 ---
 
-- [node >= 12.19.0] (https://nodejs.org/)
-- [pm2] (https://pm2.keymetrics.io/)
-- [adonis] (https://adonisjs.com/docs/4.1/installation)
+- [node >= 12.19.0](https://nodejs.org/)
+- [pm2](https://pm2.keymetrics.io/)
+- [adonis](https://adonisjs.com/docs/4.1/installation)
 
 
 ### Keep in Touch
