@@ -38,8 +38,8 @@ $ npm install
 
 ---
 
-Configure env file in backend and frontend folders using env.example as a base
-
+- Configure env file in backend and frontend folders using env.example as a base
+- Backend needs to write APP_ENV(16 characters) and TOKEN(Token will be used in the frontend to login)
 ### Usage
 
 ---
@@ -64,8 +64,9 @@ $ npm start
 
 ---
 
-- node >= 12.19.0 
-- pm2
+- [node >= 12.19.0] (https://nodejs.org/)
+- [pm2] (https://pm2.keymetrics.io/)
+- [adonis] (https://adonisjs.com/docs/4.1/installation)
 
 
 ### Keep in Touch
