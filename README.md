@@ -41,9 +41,9 @@ $ npm install
 - Configure env file in backend and frontend folders using env.example as a base
 - Backend needs to write 
   - APP_ENV 
-  ```sh
-  $ adonis key:generate
-  ```
+    ```sh
+      $ adonis key:generate
+    ```
   - TOKEN(Token will be used in the frontend to login)
 ### Usage
 
