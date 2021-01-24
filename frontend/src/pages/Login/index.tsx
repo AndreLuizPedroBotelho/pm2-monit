@@ -18,11 +18,11 @@ const Login: React.FC = () => {
       e.preventDefault();
 
       try {
-        await api.post('/login', {
+        const { data } = await api.post('/login', {
           token,
         });
 
-        await signIn(token);
+        await signIn(data.token);
       } catch (err) {
         addToast({
           type: 'error',
